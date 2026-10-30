@@ -12,7 +12,7 @@
 
 *The finished prototype: dedicated 3D-printed bins for paper, plastic, and metal.*
 
-[**Watch the Demo**](assets/videos/DEMO.MOV) · [**Project Documentation**](docs/Project_Document.pdf) · [**Science Fair Poster**](docs/Project_Poster.png) · [**Source Code**](smartsort_app.py)
+[**Watch the Demo**](assets/videos/DEMO.MOV) · [**Project Documentation**](docs/Project_Document.pdf)  · [**Source Code**](smartsort_app.py)
 
 </div>
 
@@ -115,6 +115,11 @@ The demo shows the interaction between the camera-based application, selected wa
 
 > **Video compatibility:** GitHub does not guarantee inline playback of `.MOV` files inside a README. The linked video is included in this repository; depending on the browser, GitHub may open it as a file or offer a download. The preview image above is clickable. No external video hosting or placeholder URL is required.
 
+### 🖼️ Project Poster
+
+![ZAIN SMARTSORT — Project Poster](docs/Project_Poster.png)
+
+[View the full-size poster](docs/Project_Poster.png)
 ### Download / view the original documents
 
 | Resource | Open |
