@@ -8,7 +8,7 @@
 
 **A commissioned freelance project — designed, developed, and delivered for a client in Jordan (2026).**
 
-<img src="assets/photos/finalbin.jpg" alt="ZAIN SMARTSORT: three completed 3D-printed smart waste bins" width="800">
+<img src="assets/photos/connection.jpg" alt="ZAIN SMARTSORT: three completed 3D-printed smart waste bins" width="800">
 
 *The finished prototype: dedicated 3D-printed bins for paper, plastic, and metal.*
 
