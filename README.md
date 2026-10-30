@@ -104,7 +104,7 @@ The images document working demonstrations; they do not establish a measured ove
 ### Watch the completed system
 
 <div align="center">
-<a href="assets/videos/DEMO.MOV"><img src="assets/photos/RUNPAGE.png" alt="Click to open the ZAIN SMARTSORT demonstration video" width="620"></a>
+<a href="assets/videos/DEMO.MOV"><img src="assets/photos/check1.jpg" alt="Click to open the ZAIN SMARTSORT demonstration video" width="620"></a>
 
 **▶️ [WATCH THE FULL PROJECT DEMONSTRATION](assets/videos/DEMO.MOV)**
 
@@ -125,7 +125,6 @@ The demo shows the interaction between the camera-based application, selected wa
 | Resource | Open |
 |---|---|
 | **Full Project Documentation** | 📄 **[Project_Document.pdf](docs/Project_Document.pdf)** |
-| **Science Fair Poster** | 🖼️ **[Project_Poster.pdf](docs/Project_Poster.pdf)** |
 | **Arduino Firmware** | 💻 **[sketch_oct29a.ino](arduino/sketch_oct29a/sketch_oct29a.ino)** |
 | **Python Application** | 🐍 **[smartsort_app.py](smartsort_app.py)** |
 
