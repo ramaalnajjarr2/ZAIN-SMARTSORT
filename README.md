@@ -1,560 +1,540 @@
+<div align="center">
+
 # ♻️ ZAIN SMARTSORT
 
-### AI-Powered Smart Waste Sorting System | Python · Computer Vision · Arduino UNO
+### AI-Powered Waste Classification & Smart 3D-Printed Bins
 
-**Project type:** Client-requested educational prototype · Software & hardware integration · Jordan (2026)  
-**Technical development and integration:** Rama Al-Najjar  
-**School science-fair participant/presenter:** Zain Yaser Al-Najjar  
-**Project context:** STS FAIR 2026 school science-fair demonstration
+**Computer Vision · Python · Arduino UNO · 3D Printing · Hardware Integration**
 
-> **Project context and ownership:** ZAIN SMARTSORT was developed as a **client-requested educational prototype**, in a freelance-style project arrangement, to support a school science-fair demonstration. It is **not presented here as a personal university assignment**. Technical development and integration are credited separately from the student participant's educational presentation. This description does **not** claim a completed sale or payment. Any public credit must accurately reflect contributions and follow the science fair's participation rules.
+**A commissioned freelance project — designed, developed, and delivered for a client in Jordan (2026).**
 
-<!-- ============================================================
-IMAGE 01 — MAIN HERO / FINAL PROTOTYPE
-Use the user's ORIGINAL photo showing all three GREEN bins together
-from the FRONT (Metal / Plastic / Paper). Ideally choose the clear photo
-with the three labels visible and without a person covering the bins.
-Save as: assets/photos/final_prototype.jpg
-When the file exists, delete the comment marks around the next line:
-![ZAIN SMARTSORT — Final Prototype](assets/photos/final_prototype.jpg)
-============================================================ -->
+<img src="assets/photos/finalbin.jpg" alt="ZAIN SMARTSORT: three completed 3D-printed smart waste bins" width="800">
 
-**Demo:** [Watch the working prototype](https://example.com/REPLACE-WITH-YOUR-DEMO-VIDEO) *(replace this placeholder after uploading the video)*  
-**Full documentation:** [Project Report (PDF)](docs/Project_Report.pdf) *(add the finished PDF at this path)*  
-**Science-fair poster:** [Project Poster (PDF)](docs/Project_Poster.pdf) *(add the finished PDF at this path)*
+*The finished prototype: dedicated 3D-printed bins for paper, plastic, and metal.*
+
+[**Watch the Demo**](assets/videos/DEMO.MOV) · [**Project Documentation**](docs/Project_Document.pdf) · [**Science Fair Poster**](docs/Project_Poster.pdf) · [**Source Code**](smartsort_app.py)
+
+</div>
 
 ---
 
-## 1. Project Overview
+## ✨ Project at a Glance
 
-ZAIN SMARTSORT is a working prototype of a camera-assisted waste-sorting system. The user holds an item in front of a laptop webcam, sets a clean background, and initiates a scan. A **pretrained image-classification model** predicts the item category, and a custom Python desktop application maps that prediction to one of three supported bins: **PAPER, PLASTIC, or METAL**. The application then sends a command over USB serial to an **Arduino UNO**, which controls **three SG90 servo motors** mounted on the bins. The matching lid opens briefly and closes automatically.
+**ZAIN SMARTSORT** is a client-commissioned educational smart waste-sorting prototype developed for a school science-fair demonstration. I worked on this project as a **freelance software and hardware developer**, creating and integrating the Python application, pretrained AI image classifier, Arduino control, electronic connections, and the physical bin-opening system. The completed project was **delivered to the client**. It is **not a personal university assignment**.
 
-This project demonstrates a complete **software-to-hardware workflow**: computer vision → AI inference → Python application → serial communication → physical actuation. It also shows how a small educational prototype can illustrate useful ideas in recycling and waste management.
+A laptop webcam captures an object. The Python application uses a pretrained image-classification model to determine whether it belongs to **paper, plastic, or metal**. The application highlights the selected destination and sends a command to an **Arduino UNO**. The Arduino moves the corresponding **SG90 servo motor**, opening the lid of the correct **3D-printed bin** for a short time before closing it.
 
-**Important scope:** The system opens the suitable lid; **the user manually puts the waste into the bin**. This is a prototype, **not a commercial automatic sorter** and not an AI model able to recognize every possible waste item.
+> **What is automated?** The **identification, bin selection, and lid movement**. The person still places the object inside the open bin. This is an educational prototype, not a fully autonomous industrial waste sorter.
 
-### Why build it?
+### Project details
 
-Waste is often disposed of without separating paper, plastic, and metal. This project explores how an accessible camera, a pretrained AI model, and inexpensive electronic components can assist users in selecting the right container and encourage sorting at the source.
+| | |
+|---|---|
+| **Type** | Paid/commissioned freelance client project; educational working prototype |
+| **Developed by** | **Rama Al-Najjar** — technical development and system integration |
+| **Educational demonstration** | STS FAIR 2026 |
+| **Student participant / presenter** | Zain Yaser Al-Najjar |
+| **Location / year** | Jordan · 2026 |
+| **Supported bins** | Paper · Plastic · Metal |
+| **AI model** | Pretrained [`tribber93/my-trash-classification`](https://huggingface.co/tribber93/my-trash-classification) |
+| **Controller** | Arduino UNO R3, USB serial communication at 9600 baud |
+| **Lid mechanism** | Three SG90 micro servos, one per 3D-printed bin |
 
-### What I developed
+### Key capabilities
 
-- Integrated a third-party pretrained vision model into a Python application.
-- Built the live camera interface and on-demand classification workflow.
-- Added a clear result display, destination selection, model score, and Arduino connection indicator.
-- Implemented USB serial communication with readiness and completion messages.
-- Integrated three separately controlled servo-driven bin lids.
-- Tested the camera, classifier, serial communication, motor motion, and combined prototype.
-
-**AI attribution:** The baseline model, [`tribber93/my-trash-classification`](https://huggingface.co/tribber93/my-trash-classification), was **pretrained by its publisher**. It was integrated into this application; it was **not trained from scratch** as part of this build.
-
----
-
-## 2. Photos — From Components to the Finished Prototype
-
-The photos below are intended to be **original documentation photographs**. Use your own images; no AI-generated or reconstructed photos are necessary.
-
-### 2.1 The completed bins
-
-<!-- PHOTO 02 — FRONT VIEW
-Choose the clear original image of three closed green bins, showing the labels
-"Metal", "Plastic", "Paper" on the front. Different angle from the hero is OK.
-Save as: assets/photos/bins_front.jpg
-Enable below when the file exists:
-![Front view of three finished sorting bins](assets/photos/bins_front.jpg)
--->
-
-### 2.2 Rear wiring and the controller
-
-Three SG90 servo motors are mounted near the bin lids. Their signal wires run to three digital pins on the Arduino UNO; the servo power comes from a separate regulated 5V supply. All components must share the correct ground reference for the control signals to work.
-
-<!-- PHOTO 03 — REAR WIRING / COMPLETED ELECTRONICS
-Use the clear photo taken BEHIND the bins with the blue SG90 servo bodies,
-Arduino UNO, jumper wires, and breadboard visible.
-Save as: assets/photos/bins_back.jpg
-Enable below when the file exists:
-![Rear view: Arduino, servo motors and electrical wiring](assets/photos/bins_back.jpg)
--->
-
-### 2.3 Building and testing
-
-| Stage | What the image should show | Filename to use |
-|---|---|---|
-| 01 — Preparing components | Original photo of the **orange electronics box** containing Arduino, jumpers, SG90 servos and 5V adapter | `assets/photos/components.jpg` |
-| 02 — Breadboard and power connections | Close-up of the **black mini breadboard** with red/brown wires | `assets/photos/breadboard_wiring.jpg` |
-| 03 — Servo preparation | Close-up of **three blue SG90 motors with white arms/horns** | `assets/photos/servo_testing.jpg` |
-| 04 — Arduino code | Original photo of **Arduino IDE showing the test sketch** | `assets/photos/arduino_programming.jpg` |
-| 05 — Serial test | Original photo showing **Testing: PAPER / PLASTIC / METAL / Test finished!** | `assets/photos/serial_test.jpg` |
-| 06 — Assembly | All **three bins with installed servo motors**, before final tidying | `assets/photos/assembly.jpg` |
-
-<!-- PHOTO 04 — COMPONENTS: orange kit box, Arduino, motor packaging
-![Preparing the components](assets/photos/components.jpg)
--->
-<!-- PHOTO 05 — BREADBOARD: red/brown wires connected to black mini breadboard
-![Connecting the power wiring](assets/photos/breadboard_wiring.jpg)
--->
-<!-- PHOTO 06 — SERVO: three blue motors held in hand, white arms visible
-![Preparing and testing the SG90 servo motors](assets/photos/servo_testing.jpg)
--->
-<!-- PHOTO 07 — PROGRAMMING: laptop displaying Arduino IDE sketch
-![Programming the Arduino UNO](assets/photos/arduino_programming.jpg)
--->
-<!-- PHOTO 08 — SERIAL TEST: screen shows PAPER / PLASTIC / METAL and Test finished!
-![Arduino serial and servo testing](assets/photos/serial_test.jpg)
--->
-<!-- PHOTO 09 — ASSEMBLY: three bins with servo wiring visible
-![Assembling the three-bins prototype](assets/photos/assembly.jpg)
--->
-
-> **Photo checklist:** Keep the captions short. You can add the original files later and remove each `<!-- ... -->` comment around its matching Markdown image line. Do not upload several copies of the same shot under different names.
+- Live webcam preview in a custom desktop interface.
+- AI-assisted classification into **PAPER**, **PLASTIC**, or **METAL**.
+- Visual indication of the detected material and selected bin, with a per-prediction model score.
+- Python-to-Arduino communication over a USB serial port.
+- Physical opening and closing of the corresponding bin lid.
+- Hardware connection / AI model status indicators.
+- Software-only testing when Arduino is disconnected (no physical lid movement).
 
 ---
 
-## 3. Final Result — Real Application and Working Bins
+## 📷 1. The Prototype — From Construction to Final Result
 
-### 3.1 Desktop application
+All photographs below are actual project documentation. The three bins were **3D printed** and fitted with servo-operated lids.
 
-The Python interface shows a live camera feed, the green detection region, the predicted material, the corresponding bin, a **model score**, and connection indicators for Arduino and AI loading.
+### 1.1 Completed prototype
 
-<!-- SCREENSHOT 01 — METAL: use the REAL full-screen screenshot from this chat
-The app detects METAL, shows METAL BIN and a 64.7% model score.
-Save as: assets/screenshots/metal_detection.png
-![Metal classification in the desktop application](assets/screenshots/metal_detection.png)
--->
+<div align="center">
+<img src="assets/photos/finalbin.jpg" alt="Final ZAIN SMARTSORT prototype" width="740">
 
-<!-- SCREENSHOT 02 — PLASTIC: use the REAL full-screen screenshot from this chat
-The app detects a plastic bottle, shows PLASTIC BIN and 58.0% model score.
-Save as: assets/screenshots/plastic_detection.png
-![Plastic classification in the desktop application](assets/screenshots/plastic_detection.png)
--->
+*Final arrangement of the three labeled, 3D-printed waste bins.*
+</div>
 
-> **Model score ≠ overall accuracy.** The on-screen percentage belongs to a single AI prediction; it must not be reported as the percentage of successful tests over all samples.
+### 1.2 Hardware components and early testing
 
-### 3.2 Physical bin-opening tests
+| Preparing the components | Early component test |
+|:---:|:---:|
+| <img src="assets/photos/PreTools.jpg" alt="Hardware components used in the build" width="420"> | <img src="assets/photos/check1.jpg" alt="Early hardware or software testing" width="420"> |
+| **Components:** Arduino UNO, three SG90 servo motors, wiring, power adapter and assembly materials. | **Preparation and testing:** checking the electronics and control workflow before final integration. |
 
-<!-- PHOTO 10 — METAL: ORIGINAL photo of a metal can above the open Metal bin
-Save as: assets/photos/metal_test.jpg
-![Metal bin opening during a test](assets/photos/metal_test.jpg)
--->
-<!-- PHOTO 11 — PAPER: ORIGINAL photo with a sheet of paper and the Paper lid open
-Save as: assets/photos/paper_test.jpg
-![Paper bin opening during a test](assets/photos/paper_test.jpg)
--->
-<!-- PHOTO 12 — PLASTIC: ORIGINAL photo with a water bottle and open Plastic bin
-Save as: assets/photos/plastic_test.jpg
-![Plastic bin opening during a test](assets/photos/plastic_test.jpg)
--->
+### 1.3 Building the electronics and wiring
 
-### 3.3 Watch the final demonstration
+| Assembly and connections | Completed electrical connections |
+|:---:|:---:|
+| <img src="assets/photos/connection.jpg" alt="Smart bin assembly and wiring" width="420"> | <img src="assets/photos/FinalConnection.jpg" alt="Final wiring connected to Arduino and the servo motors" width="420"> |
+| Connecting the bins, servos, and control system. | Final connections used to operate the three lids. |
 
-<!-- VIDEO — upload your own VIDEO, not a generated video.
-Recommended: 30–90 seconds, showing (1) physical prototype, (2) webcam scan,
-(3) model prediction/destination, (4) the right lid opening and closing.
-Optional second video: time-lapse/behind-the-scenes assembly and wiring.
-YouTube unlisted or a direct shareable LinkedIn video link both work.
-Replace the placeholder URL below with the ACTUAL public/unlisted video URL.
-For a thumbnail, save a real video still as assets/screenshots/demo_thumbnail.jpg
-and enable this line:
-[![Watch the project demo](assets/screenshots/demo_thumbnail.jpg)](https://example.com/REPLACE-WITH-YOUR-DEMO-VIDEO)
--->
+### 1.4 Desktop application — running interface
 
-**▶ [Watch the ZAIN SMARTSORT working demo](https://example.com/REPLACE-WITH-YOUR-DEMO-VIDEO)** *(replace with the actual video URL)*
+<div align="center">
+<img src="assets/photos/RUNPAGE.png" alt="ZAIN SMARTSORT Python GUI running with live camera preview and classification status" width="800">
 
-**Behind the scenes:** `PASTE_BEHIND_THE_SCENES_VIDEO_URL_HERE` *(optional)*
+*The desktop application displays the live camera view, detection information, selected material/bin, model score, and connection indicators.*
+</div>
 
-### 3.4 Documentation
+When an item is classified, the application highlights the corresponding **PAPER**, **PLASTIC**, or **METAL** destination. If Arduino is ready, it also sends the matching instruction to open the correct physical lid.
 
-- [Full Scientific Project Report](docs/Project_Report.pdf) — project context, hypothesis, background, materials, procedure, tests, findings, conclusion and references.
-- [Science Fair Poster](docs/Project_Poster.pdf) — visual summary for the fair.
-- [Test results](docs/TEST_RESULTS.md) — repeatable test records; only fill with actual observations.
+### 1.5 Real-world material tests
 
-**Before publishing:** Put these files at exactly the paths linked above, or edit the links to the filenames you really use. GitHub links to nonexistent files will not work.
+| Metal | Paper | Plastic |
+|:---:|:---:|:---:|
+| <img src="assets/photos/metaltest.jpg" alt="Metal bin opening test" width="280"> | <img src="assets/photos/papertest.jpg" alt="Paper bin opening test" width="280"> | <img src="assets/photos/plastictest.jpg" alt="Plastic bin opening test" width="280"> |
+| **METAL** — the metal lid opens. | **PAPER** — the paper lid opens. | **PLASTIC** — the plastic lid opens. |
+
+The images document working demonstrations; they do not establish a measured overall AI accuracy rate.
 
 ---
 
-## 4. System Architecture
+## 🎬 2. Working Demo & Project Documents
+
+### Watch the completed system
+
+<div align="center">
+<a href="assets/videos/DEMO.MOV"><img src="assets/photos/RUNPAGE.png" alt="Click to open the ZAIN SMARTSORT demonstration video" width="620"></a>
+
+**▶️ [WATCH THE FULL PROJECT DEMONSTRATION](assets/videos/DEMO.MOV)**
+
+*Click the screenshot or link to open the actual recorded demonstration (`assets/videos/DEMO.MOV`).*
+</div>
+
+The demo shows the interaction between the camera-based application, selected waste category, Arduino, and the physical lid mechanism.
+
+> **Video compatibility:** GitHub does not guarantee inline playback of `.MOV` files inside a README. The linked video is included in this repository; depending on the browser, GitHub may open it as a file or offer a download. The preview image above is clickable. No external video hosting or placeholder URL is required.
+
+### Download / view the original documents
+
+| Resource | Open |
+|---|---|
+| **Full Project Documentation** | 📄 **[Project_Document.pdf](docs/Project_Document.pdf)** |
+| **Science Fair Poster** | 🖼️ **[Project_Poster.pdf](docs/Project_Poster.pdf)** |
+| **Arduino Firmware** | 💻 **[sketch_oct29a.ino](arduino/sketch_oct29a/sketch_oct29a.ino)** |
+| **Python Application** | 🐍 **[smartsort_app.py](smartsort_app.py)** |
+
+These links use the **actual filenames** in this repository, including capitalization and extensions.
+
+---
+
+## 🧠 3. How ZAIN SMARTSORT Works
 
 ```mermaid
 flowchart TD
-    A[Object in front of webcam] --> B[Capture image with OpenCV]
-    B --> C[Pretrained image-classification model]
-    C --> D{Recognized supported material with sufficient score?}
-    D -->|No| E[Show unsupported/uncertain; do not move a lid]
-    D -->|Yes| F[Python maps category to PAPER / PLASTIC / METAL]
-    F --> G[PySerial via USB at 9600 baud]
-    G --> H[Arduino UNO]
-    H --> I[Move one matching SG90 servo]
-    I --> J[Open lid for 3 seconds, then close]
+    A[Place one item in webcam detection area] --> B[Press B to capture empty background first]
+    B --> C[Press Space to scan the item]
+    C --> D[Python and OpenCV process camera image]
+    D --> E[Pretrained AI image classifier]
+    E --> F{Supported category and sufficient score?}
+    F -- No --> G[Show uncertain or unsupported result; no lid command]
+    F -- Yes --> H[Highlight PAPER, PLASTIC, or METAL in GUI]
+    H --> I[Send command through USB serial at 9600 baud]
+    I --> J[Arduino UNO]
+    J --> K[Move matching servo on D9, D10, or D11]
+    K --> L[Open selected 3D-printed lid, then close]
 ```
 
-**Mapping in the Python code:**
+1. **Prepare the view:** Keep the camera still, clear the target area, and press **`B`** to capture the empty background.
+2. **Present the item:** Place one sample item in front of the webcam within the detection area.
+3. **Request classification:** Press **`Space`**. Python analyzes the captured image using the pretrained classifier.
+4. **Choose a destination:** A supported paper, plastic or metal prediction is mapped to the correct bin. The GUI indicates the selected destination.
+5. **Send the hardware command:** Python sends `PAPER`, `PLASTIC` or `METAL` to Arduino through its USB serial connection.
+6. **Move the lid:** Arduino rotates **only the corresponding servo**; the lid opens briefly, then returns to its closed position.
+7. **Dispose of the item:** The user manually places the item inside the opened container.
 
-| AI model output | Bin selected | Arduino command | Signal pin |
+### Classification-to-hardware mapping
+
+| Classifier result | Destination | Serial command | Arduino pin |
 |---|---|---|---|
-| `paper`, `cardboard` | Paper | `PAPER` | D9 |
-| `plastic` | Plastic | `PLASTIC` | D10 |
-| `metal` | Metal | `METAL` | D11 |
-| `glass`, `trash`, unsupported/uncertain result | None | No command | — |
+| `paper` / `cardboard` | Paper bin | `PAPER` | **D9** |
+| `plastic` | Plastic bin | `PLASTIC` | **D10** |
+| `metal` | Metal bin | `METAL` | **D11** |
+| Unsupported / insufficient-confidence result | No destination | No lid-opening command | — |
 
-The app uses a minimum classification-score threshold of **0.40** by default. This is a **software decision threshold**, not a measured accuracy rate. The implementation maps the supported labels to the three available bins; some other labels are rejected instead of forcing a bin selection.
+The application source uses a configurable **minimum classification score of `0.40`**. This is a software threshold—not a measured success rate. The output score for a single image must not be described as overall system accuracy.
 
-The Arduino uses a simple serial protocol:
+### Communication protocol
 
 ```text
-Arduino -> Python: READY       (initialization complete)
-Python  -> Arduino: PLASTIC\n  (example: one command followed by newline)
-Arduino -> Python: BUSY        (motor action started)
-Arduino -> Python: DONE        (lid cycle completed)
+Python desktop application     Arduino UNO
+          |                         |
+          |<-------- READY ---------|
+          |                         |
+          |------ PLASTIC\n ------->|    example request
+          |<-------- BUSY ----------|
+          |                         |    open plastic lid
+          |                         |    hold briefly, then close
+          |<-------- DONE ----------|
+          |                         |
 ```
 
-This prevents sending overlapping bin-opening actions. Only **one bin** is commanded to open at a time, although all three servos remain powered when the power supply is on.
+The tested control design uses **9600 baud** and sends one material command at a time. Check the included firmware and Python settings together if adapting the mechanism.
 
 ---
 
-## 5. Hardware and Software Used
+## 🧰 4. Components, Tools & Technologies
 
-### Hardware
+### Hardware checklist
 
-| Quantity | Component | Purpose |
+| Qty. | Component | Why it is needed |
 |---:|---|---|
-| 1 | Arduino UNO R3 | Receives serial commands and drives servo signals |
-| 3 | SG90 micro servo motors | Opens and closes the three lids |
-| 3 | Mini waste bins with movable lids | Paper, plastic and metal destinations |
-| 1 | Windows laptop with a webcam | Runs the GUI and image classifier |
-| 1 | USB data cable | Powers/programs the Arduino and carries serial messages |
-| 1 | Regulated **5V DC, 2A** adapter used in the prototype | Separate power supply for the servos |
-| 1 | Female DC barrel connector with `+` and `−` terminals | Connects the 5V DC adapter to power wiring |
-| 1 | 170-point mini breadboard | Wiring distribution / prototyping |
-| Several | Jumper wires | Servo signal, power and shared-ground connections |
-| 1 | Supporting container/mounts/servo horns | Mechanical assembly |
+| 1 | **Arduino UNO R3** | Receives commands and produces servo-control signals |
+| 3 | **SG90 micro servo motors** | Move the three lids |
+| 3 | **3D-printed waste bins with movable lids** | Separate paper, plastic and metal destinations |
+| 1 | **Laptop / desktop running Windows** | Runs the AI classifier and graphical interface |
+| 1 | **Webcam** (built-in or external) | Captures the waste sample |
+| 1 | **USB data cable** compatible with the UNO | Programs the board and carries serial data |
+| 1 | **Regulated 5V DC power adapter** (prototype: 2A) | Supplies the servo motors separately |
+| 1 | **Female DC barrel adapter / screw-terminal connector** | Connects the regulated adapter to the wiring |
+| 1 | **Breadboard or suitable power-distribution connectors** | Distributes servo supply and grounds |
+| Several | **Jumper wires** | Connects signal, power, and ground lines |
+| As needed | **Servo horns, brackets, mounts and fasteners** | Couples motor movement to each 3D-printed lid |
 
-**Note:** This records the prototype configuration; a 5V/2A supply is not guaranteed to be adequate for heavier lids or multiple stalled servos. Use appropriately rated wiring and power components for any upgraded build.
+A servo power supply must be appropriately sized for the real load; **5V/2A describes this prototype**, not a universal guarantee for every servo/lid combination.
 
-### Software
+### Software stack
 
-| Tool | What it does |
+| Software | Purpose |
 |---|---|
-| Python 3.13 (development setup: 3.13.7) | Desktop application logic |
-| Visual Studio Code | Source-code editor (optional; not required at runtime) |
-| Arduino IDE 2.x | Compiles/uploads the UNO sketch |
-| OpenCV (`opencv-python`) | Webcam access and image/frame processing |
-| NumPy | Image data operations |
-| Pillow (`PIL`) | Image conversion for the classifier/GUI |
-| CustomTkinter | Desktop interface |
-| Hugging Face Transformers + PyTorch | Pretrained AI model loading/inference |
-| PySerial | USB serial communication with Arduino |
+| **Python 3.13** | Runs the desktop application |
+| **Visual Studio Code** | Convenient code editor (recommended, not mandatory) |
+| **Arduino IDE** | Compiles/uploads the Arduino `.ino` sketch |
+| **OpenCV** | Webcam acquisition and image processing |
+| **CustomTkinter** | Desktop UI |
+| **Transformers + PyTorch** | Loads and executes the pretrained image classifier |
+| **NumPy / Pillow** | Image data and image conversion |
+| **PySerial** | Communication with Arduino over USB |
+| **Git** | Optional method for downloading/updating the project |
 
-Libraries are listed in [`requirements.txt`](requirements.txt). External runtime libraries such as `threading`, `queue`, and `time` are part of Python's standard library and are not listed separately.
+**Pretrained model:** [`tribber93/my-trash-classification`](https://huggingface.co/tribber93/my-trash-classification). This project **integrates** the existing model; it does not claim to train or invent it.
 
 ---
 
-## 6. Circuit Wiring — Arduino UNO + 3 SG90 Servos
+## 🔌 5. Hardware Wiring — Complete Beginner Guide
 
-### Pin assignments
+### Important safety rules
 
-| Bin | SG90 yellow/orange signal | SG90 red power | SG90 brown/black ground |
+- **Unplug the servo power adapter and USB cable before touching or changing wiring.**
+- **Never connect the servo adapter's positive `+5V` line to the Arduino `5V` pin when the UNO is already powered by USB.** In this build, the external 5V supply powers the servos; the laptop USB powers the Arduino.
+- The **external power-supply ground (`−` / GND)** and **Arduino GND** **must be connected together** (common ground).
+- Check the marked **`+` / `−` terminals** on the DC adapter; do not assume polarity purely from wire color.
+- Do not run three servos from the Arduino's 5V pin. Protect wiring from shorts and avoid forcing a stalled servo or an obstructed lid.
+
+### SG90 wire colors and connections
+
+Each SG90 typically has **three wires**: **yellow/orange** = control signal, **red** = +5V, **brown/black** = ground.
+
+| Bin | Signal wire → Arduino UNO | Red wire → | Brown/black wire → |
 |---|---|---|---|
-| Paper | Arduino **D9** | External regulated **+5V** | External supply **GND** |
-| Plastic | Arduino **D10** | External regulated **+5V** | External supply **GND** |
-| Metal | Arduino **D11** | External regulated **+5V** | External supply **GND** |
+| **PAPER** | **D9** | External supply **+5V** | External supply **GND** |
+| **PLASTIC** | **D10** | External supply **+5V** | External supply **GND** |
+| **METAL** | **D11** | External supply **+5V** | External supply **GND** |
 
-Also connect **Arduino GND ↔ external supply GND** (common ground). Connect the Arduino to the laptop with a **USB data cable**. All three servo red wires connect to the external regulated 5V supply via a suitable power-distribution connection; all brown wires connect to its ground. Do **not** power all three servos from the Arduino 5V pin.
+In addition, connect **one Arduino GND pin** to the **same external GND rail** used by the servo ground wires.
 
 ```text
-                  Laptop / Windows
-                 Python GUI + AI Model
-                          |
-                    USB data cable
-                          |
-                      Arduino UNO
-                D9 -------- PAPER servo signal (yellow)
-                D10 ------- PLASTIC servo signal (yellow)
-                D11 ------- METAL servo signal (yellow)
-                GND -------------------------+
-                                             |
-5V DC adapter  (+) -----> servo RED wires    |
-               (-) -----> servo BROWN wires -+
+                         WINDOWS LAPTOP
+                      Python app + webcam
+                             |
+                        USB DATA CABLE
+                             |
+                         ARDUINO UNO
+                        ┌──────────────┐
+ Paper SG90 signal   <──│ D9           │
+ Plastic SG90 signal <──│ D10          │
+ Metal SG90 signal   <──│ D11          │
+                        │ GND ────────┼───────────┐
+                        └──────────────┘           │
+                                                   │ (COMMON GROUND)
+ REGULATED 5V DC POWER ADAPTER                     │
+         +5V ───────────────> ALL 3 SERVO RED WIRES│
+         GND ───────────────> ALL 3 SERVO BROWN ───┘
+
+  USB powers Arduino; external regulated 5V powers servos.
+  Do not connect external +5V to USB-powered Arduino 5V.
 ```
 
-**Safety:**
+### Connect everything in order
 
-- **Turn off the external adapter and disconnect USB before changing the wiring.**
-- The adapter's `+` and `−` must be checked by label/polarity before connection; never guess polarity from wire color alone.
-- Keep USB-powered Arduino **5V** separate from the servo adapter **+5V**. The common-ground link is intentional.
-- Use securely clamped/appropriate power distribution; don't leave loose jumper pins exposed or short the power rails.
-- The SG90 needs enough clearance and a properly fixed mounting point. Avoid forcing its horn against a mechanical stop.
-- The prototype drives **one servo operation at a time**; it does not eliminate transient current spikes or stall risks.
+1. **Mount the motors:** Attach one SG90 securely near each 3D-printed lid. Connect the appropriate servo horn/linkage so the lid can move freely without hitting a hard stop.
+2. **Keep power disconnected:** Put the external power adapter aside until signal, ground, and polarity are checked.
+3. **Wire the signal pins:** Paper servo → **D9**; Plastic servo → **D10**; Metal servo → **D11**.
+4. **Wire the servo supply:** Connect **all three red wires** to the adapter **+5V** power rail. Connect **all three brown/black wires** to its **GND** rail using the breadboard/secure distribution.
+5. **Connect common ground:** Run one jumper from an Arduino **GND** pin to the external **GND** rail. This is necessary even though the Arduino is connected to the laptop by USB.
+6. **Double-check polarity and loose wires** before supplying power. Make sure the servo horns have enough physical clearance.
+7. **Connect Arduino to the laptop** via USB and upload the `.ino` sketch as described below.
+8. Once wiring and firmware are confirmed, **turn on the regulated servo supply**. Run the Python software and make a controlled test using one sample item.
 
-<!-- PHOTO 13 — CIRCUIT CLOSEUP
-Use the original breadboard photo or a sharp, real view of the assembled
-wiring showing how all three servo signals go to D9/D10/D11.
-Save as: assets/photos/wiring_closeup.jpg
-![Circuit wiring close-up](assets/photos/wiring_closeup.jpg)
--->
+### Actual build photos
+
+| Work-in-progress wiring | Final hardware wiring |
+|:---:|:---:|
+| <img src="assets/photos/connection.jpg" alt="Work-in-progress wiring" width="420"> | <img src="assets/photos/FinalConnection.jpg" alt="Completed Arduino and SG90 wiring" width="420"> |
 
 ---
 
-## 7. Reproduce the Project on a Windows Computer — Full Guide
+## 💻 6. Run It Yourself — Step by Step (Windows)
 
-> These steps assume the software is available locally and the hardware has already been assembled and checked. The original setup used Windows and an Arduino UNO. **You do not need Microsoft Visual Studio**: **Visual Studio Code** is sufficient as an editor, and you can run the app from a terminal without any editor.
+You **do not need Microsoft Visual Studio**. Install **Visual Studio Code** to comfortably view/edit code, or run everything from Windows Terminal/Command Prompt.
 
-### Step 1 — Install the necessary programs
+### Step 1 — Install the programs
 
-1. **Python 3.13** — download from https://www.python.org/downloads/ and, if offered, check **Add Python to PATH** during setup.
-2. **Visual Studio Code** (recommended editor) — https://code.visualstudio.com/ ; install the official Python extension in VS Code.
-3. **Arduino IDE 2.x** — https://www.arduino.cc/en/software ; it is used to open and upload `.ino` code to the Arduino UNO.
-4. **Git** (optional, for cloning and updating the repository) — https://git-scm.com/downloads/win . You can instead use **Code → Download ZIP** from GitHub.
-5. A **working webcam**, an Arduino UNO, a USB data cable, the three properly powered/connected SG90 motors, and internet access at least for the model's first download.
+1. **Python 3.13:** [python.org/downloads](https://www.python.org/downloads/) — choose Python 3.13; enable **Add Python to PATH** when available.
+2. **Visual Studio Code:** [code.visualstudio.com](https://code.visualstudio.com/) — install and add its **Python** extension (recommended).
+3. **Arduino IDE:** [arduino.cc/en/software](https://www.arduino.cc/en/software) — use this to upload firmware to the UNO.
+4. **Git (optional):** [git-scm.com/downloads/win](https://git-scm.com/downloads/win) — only needed if you want to use `git clone` instead of downloading ZIP.
+5. Prepare a working **webcam**, the assembled Arduino/servo hardware, and an **internet connection for the initial AI model download**.
 
-### Step 2 — Download the project
+### Step 2 — Get the project files
 
-Option A: use Git in CMD/PowerShell:
+**Method A — Git:** Open CMD / PowerShell and run:
 
 ```powershell
-git clone https://github.com/ramaalnajjar2/ZAIN-SMARTSORT.git
+git clone https://github.com/ramaalnajjarr2/ZAIN-SMARTSORT.git
 cd ZAIN-SMARTSORT
 ```
 
-Option B: on GitHub choose **Code → Download ZIP**, extract the archive, then open the extracted project folder.
+**Method B — no Git:** Open the repository page on GitHub → **Code → Download ZIP** → extract it → open the extracted folder.
 
-Expected project structure:
+### Step 3 — Understand the project structure
 
 ```text
-SmartSort/
-├── smartsort_app.py
-├── requirements.txt
-├── .gitignore
-├── README.md
+ZAIN-SMARTSORT/
+├── README.md                         # You are reading this file
+├── smartsort_app.py                  # Python application and GUI
+├── requirements.txt                  # Python libraries
+├── .gitignore                        # Git exclusions
 ├── arduino/
 │   └── sketch_oct29a/
-│       └── sketch_oct29a.ino
+│       └── sketch_oct29a.ino         # Arduino firmware
 ├── assets/
-│   ├── screenshots/
-│   ├── photos/
+│   ├── photos/                       # Real build and test images
+│   │   ├── finalbin.jpg
+│   │   ├── PreTools.jpg
+│   │   ├── check1.jpg
+│   │   ├── connection.jpg
+│   │   ├── FinalConnection.jpg
+│   │   ├── RUNPAGE.png
+│   │   ├── metaltest.jpg
+│   │   ├── papertest.jpg
+│   │   └── plastictest.jpg
 │   └── videos/
+│       └── DEMO.MOV                  # Real project demonstration
 └── docs/
-    ├── Project_Report.pdf
-    ├── Project_Poster.pdf
-    └── TEST_RESULTS.md
+    ├── Project_Document.pdf          # Full project document
+    └── Project_Poster.pdf            # Science fair poster
 ```
 
-**Arduino filename rule:** Arduino IDE expects the folder and its `.ino` sketch to have matching names. This repository structure assumes the final tested sketch is `arduino/sketch_oct29a/sketch_oct29a.ino`. If the real sketch uses another name, update this path accordingly and keep the folder/file names matched.
+The folder names and filename capitalization in this diagram match the files committed for this project.
 
-### Step 3 — Open the folder and Terminal
+### Step 4 — Create a Python virtual environment
 
-- Open **VS Code → File → Open Folder... → SmartSort**.
-- Open **Terminal → New Terminal** inside VS Code, or open CMD/PowerShell directly in the project folder.
-- Check your interpreter:
+Open the project folder in **VS Code → File → Open Folder**, then **Terminal → New Terminal**. Alternatively, open Command Prompt directly in that folder.
+
+Check Python:
 
 ```powershell
 py -3.13 --version
 ```
 
-### Step 4 — Create the virtual environment
+Create the environment:
 
 ```powershell
 py -3.13 -m venv .venv
 ```
 
-You **do not need to activate** `.venv` in PowerShell. Running its Python executable directly avoids the common `Activate.ps1` execution-policy prompt.
+You do **not** need to activate the environment. All commands below call its Python interpreter directly, avoiding PowerShell execution-policy problems.
 
-### Step 5 — Install all Python libraries
+### Step 5 — Install Python dependencies
+
+In the project folder, run:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-The dependency download (especially `torch`) may be substantial. The supplied `requirements.txt` lists package names without exact version pins; this was deliberately kept flexible, but future reproducible releases should record the **versions actually tested together**.
+This installs the libraries from [`requirements.txt`](requirements.txt): `opencv-python`, `customtkinter`, `numpy`, `Pillow`, `transformers`, `torch`, and `pyserial`.
 
-### Step 6 — Upload the Arduino program
+> **First-time setup:** `torch` and the pretrained model can involve large downloads. Package versions are not currently pinned; future compatibility may require choosing tested versions if upstream packages change.
 
-1. Disconnect the external servo supply before adjusting wiring; verify all pins and polarity.
-2. Connect the UNO to the laptop over USB.
-3. In **Arduino IDE**, open the **tested final `.ino` file** from the `arduino/` directory.
-4. Select **Tools → Board → Arduino AVR Boards → Arduino Uno** (exact menu naming may vary).
-5. Select **Tools → Port → COMx** corresponding to the connected Arduino (the original development machine used `COM4`).
-6. Click **Verify** and then **Upload**. Wait for **Done uploading**.
-7. Close the Arduino **Serial Monitor** and Serial Plotter before starting Python, because only one program can normally own the COM port at a time.
-8. With the verified servo wiring and correct power distribution in place, power the servo supply and run the integrated application.
+### Step 6 — Program your Arduino UNO
 
-> **Firmware contract:** Python expects the Arduino firmware to print `READY` after startup, accept a newline-terminated `PAPER`, `PLASTIC`, or `METAL` command at **9600 baud**, print `BUSY` when opening a lid, and print `DONE` when the lid has closed. Use the **actually tested final Arduino sketch**. A generic reference firmware is not automatically interchangeable with servo mounting angles on the real prototype.
+1. Connect the **Arduino UNO** to the laptop using a **USB data cable**.
+2. Launch **Arduino IDE**.
+3. Open [`arduino/sketch_oct29a/sketch_oct29a.ino`](arduino/sketch_oct29a/sketch_oct29a.ino).
+4. Choose **Tools → Board → Arduino AVR Boards → Arduino Uno**.
+5. Choose **Tools → Port → COMx**, selecting the port assigned to your UNO.
+6. Press **Verify** (checkmark) and then **Upload** (arrow). Wait for **Done uploading**.
+7. **Close Arduino Serial Monitor and Serial Plotter** before running Python. Two applications usually cannot access the same COM port simultaneously.
+8. Ensure the three motors have the correct **external regulated 5V supply** and **shared ground**, then turn on servo power.
 
-### Step 7 — Check app settings
+The Arduino firmware uses the standard Arduino **Servo** library (`Servo.h`). It should process the `PAPER`, `PLASTIC`, and `METAL` commands at **9600 baud** and open the corresponding lid. The actual open/closed angles depend on the installed horn and hinge orientation; do not force a different mechanical assembly to use untested angles.
 
-Open [`smartsort_app.py`](smartsort_app.py) and verify this configuration near the beginning:
+### Step 7 — Check the serial port in Python
+
+Open [`smartsort_app.py`](smartsort_app.py) and locate these settings near the beginning:
 
 ```python
 MODEL_NAME = "tribber93/my-trash-classification"
 MIN_CONFIDENCE = 0.40
-SERIAL_PORT = "COM4"    # Change to the port actually shown on your PC
+SERIAL_PORT = "COM4"      # Example from the original setup
 SERIAL_BAUD = 9600
 ```
 
-How to find `COMx`: open **Windows Device Manager → Ports (COM & LPT)** while Arduino is connected, or look at **Tools → Port** in Arduino IDE. Set the matching port in `smartsort_app.py`. `COM4` is **not universal**; it was the original development setting.
+**`COM4` is not the correct port on every computer.** To find yours:
 
-### Step 8 — Run the Python desktop application
+1. Connect Arduino using USB.
+2. Open **Windows Device Manager → Ports (COM & LPT)**, or check **Arduino IDE → Tools → Port**.
+3. Read the actual Arduino port (for example `COM3` or `COM5`).
+4. Replace `"COM4"` with that port, **save** `smartsort_app.py`, and close Arduino Serial Monitor.
 
-From the VS Code Terminal / PowerShell in the project folder:
+### Step 8 — Start the Python app
+
+From the project folder, run:
 
 ```powershell
 .\.venv\Scripts\python.exe smartsort_app.py
 ```
 
-Or in CMD:
+On the first launch, the application may download the pretrained model from Hugging Face. Wait until the AI is initialized and the camera interface is ready.
 
-```cmd
-.venv\Scripts\python.exe smartsort_app.py
-```
+**What you should see:** A desktop application headed **ZAIN SMARTSORT**, a live camera preview, classification/bin indicators, and AI/Arduino connection status. Compare with the real screenshot:
 
-Wait for the model to load. On the **first run**, the pretrained model may download from Hugging Face over the internet and take additional time. The app then displays a live camera feed and status indicators.
+<div align="center">
+<img src="assets/photos/RUNPAGE.png" alt="Expected application window on launch" width="740">
+</div>
 
-### Step 9 — Use the GUI and perform a sorting test
+### Step 9 — Complete your first waste-sorting test
 
-1. Place the camera so an object can be shown inside the **green detection area**.
-2. Remove any object from the area, keep the camera still, then press **`B`** to set the *empty background*.
-3. Place a **single paper, plastic or metal item** in the green area.
-4. Press **`Space`** to start a scan.
-5. Check **Detected Material**, **Selected Destination**, **Model Score**, and the Arduino connection indicator.
-6. If the item is recognized with sufficient confidence and Arduino is connected, the corresponding lid opens for about **3 seconds** and then closes (per the reference Arduino settings).
-7. Wait for the previous lid action to finish before scanning another item.
-8. If you move the camera or change the background significantly, remove the object and press **`B`** again before scanning.
+1. Put the camera in a steady position and make sure the green detection area is **empty**.
+2. Press **`B`** to capture the clean background.
+3. Place **one paper, plastic or metal item** in the detection area.
+4. Press **`Space`** to classify it.
+5. Watch the detected material and the highlighted destination in the GUI.
+6. If Arduino is connected and the classification is accepted, the selected lid opens briefly and then closes.
+7. Manually place the item into the correct bin while the lid is open.
+8. Remove the item. Repeat for the next sample, capturing the background again with `B` if the camera or lighting changes.
 
-| Shortcut | Function |
+| Keyboard control | Action |
 |---|---|
-| `B` | Save the empty camera background |
-| `Space` | Scan the current object |
+| **`B`** | Capture an empty-background reference |
+| **`Space`** | Start classification/scanning |
+| **`Esc`** | Close the application |
 
-### Step 10 — Test without an Arduino
+### Step 10 — Can I test without hardware?
 
-The app can also be started **without hardware connected**. It will show **Arduino not connected / offline**, while still allowing model/camera testing once the AI model is ready and an empty background has been set. **No servo moves in this mode.** This is useful for debugging the classifier independently of the physical bins.
+**Yes, for software testing.** You can launch the camera and AI application even if Arduino is disconnected. The hardware status will show disconnected/offline, and **no bin lid will open**. This is useful for checking the camera, AI prediction, and interface before wiring the electronics.
 
-### Step 11 — Shut down
+### Step 11 — Shut down safely
 
-- Stop scanning and close the Python application.
-- Disconnect the regulated servo power supply when finished.
-- Unplug USB if you need to modify or move the electronics.
-
----
-
-## 8. Testing and Evaluation
-
-The prototype was tested using physical paper, plastic and metal samples and by observing the serial output and lid movement. To evaluate it rigorously, record **two separate outcomes** in every trial:
-
-1. **Correct classification:** did the AI choose the right category?
-2. **Successful lid operation:** did the app select the correct destination and did the appropriate lid **open and close**? (The user still places the item in the bin.)
-
-| Material | Trials | Correct AI classifications | Correct lid operations |
-|---|---:|---:|---:|
-| Paper | To be recorded | To be recorded | To be recorded |
-| Plastic | To be recorded | To be recorded | To be recorded |
-| Metal | To be recorded | To be recorded | To be recorded |
-
-**Classification accuracy** = correct classifications ÷ total trials × 100%.  
-**End-to-end sorting success** = trials where both classification and corresponding lid operation were correct ÷ total trials × 100%.
-
-Do **not** replace these values with the model score shown for one particular object. To report a reliability result, test a repeatable set of samples under documented conditions (including lighting and camera distance).
-
-**Suggested test record:** [`docs/TEST_RESULTS.md`](docs/TEST_RESULTS.md) — record material, sample description, expected result, predicted result, model score, lid motion, lighting, and notes.
+Close the Python application, disconnect the regulated **servo power**, and unplug the Arduino USB cable before moving or changing the circuit.
 
 ---
 
-## 9. Troubleshooting
+## 🧪 7. Testing & Interpretation
 
-| Problem | Checks / fix |
+The working prototype was demonstrated with paper, plastic and metal objects, using both on-screen results and physical bin-opening tests.
+
+| Test | What to confirm | Evidence |
+|---|---|---|
+| Paper object | Paper is selected and paper lid opens/closes | [Paper test photo](assets/photos/papertest.jpg) |
+| Plastic object | Plastic is selected and plastic lid opens/closes | [Plastic test photo](assets/photos/plastictest.jpg) |
+| Metal object | Metal is selected and metal lid opens/closes | [Metal test photo](assets/photos/metaltest.jpg) |
+| Hardware connection | Correct Arduino COM port and serial command exchange | [Arduino firmware](arduino/sketch_oct29a/sketch_oct29a.ino) |
+| End-to-end operation | Camera → classifier → GUI → Arduino → lid | [Demo video](assets/videos/DEMO.MOV) |
+
+**Important:** A prediction score displayed by the model (such as 58% or 64.7% for an individual sample) is **not an experimentally measured accuracy figure**. A trustworthy accuracy claim needs many labeled trials, recorded expected/predicted results, and separate tracking of successful motor operations. No unverified test counts or accuracy rates are claimed here.
+
+---
+
+## 🛠️ 8. Troubleshooting
+
+| Symptom | What to do |
 |---|---|
-| `Could not open port COM4` / `Arduino not connected` | Plug in Arduino using a USB **data** cable, identify the actual COM port, change `SERIAL_PORT`, and close Serial Monitor. The app should still support software-only classification. |
-| Arduino connects but no lid opens | Confirm the Arduino sketch implements `READY` / `BUSY` / `DONE`, the correct D9/D10/D11 signal mapping, the separate regulated 5V supply, and shared GND. |
-| `programmer is out of sync` / upload fails | Close Python and Serial Monitor, disconnect interfering devices if needed, verify UNO board and correct port, then retry with the USB cable alone when appropriate. |
-| `No READY response from Arduino` | Check firmware sends `READY` after startup at 9600 baud and that no other app owns the port; opening serial can reset the UNO. |
-| GUI starts but nothing scans | Wait for `AI SYSTEM ONLINE`, clear the detection region, press `B`, place one object, then press `Space`. |
-| `AI MODEL ERROR` or import failure | Confirm internet connection for initial download, install `requirements.txt`, and review the terminal traceback. |
-| Camera not working | Allow Windows camera permissions, close other camera apps, check the webcam connection/device. |
-| Inaccurate material prediction | Use steady lighting, reduce clutter, show one object at a time, recapture the background, and collect additional evaluation samples. |
-| Servo buzzes, stalls, or struggles | Disconnect power; inspect the bracket, hinge, lid weight, horn position, correct angles and power capacity. Never force a stalled servo. |
-| PowerShell script `untrusted publisher` / execution-policy prompt | You don't need to run `Activate.ps1`; use `.\.venv\Scripts\python.exe` directly as shown above. |
-| Video or image not visible in README | Ensure the exact relative path matches the file name, extension and capitalization committed to GitHub. |
+| `Arduino not connected` / cannot open `COM4` | Check USB **data** cable; find the correct COM port; update `SERIAL_PORT`; close Arduino Serial Monitor and other programs using the port. |
+| Arduino uploads but a lid does not move | Verify D9/D10/D11 signals, shared GND, 5V external servo supply, servo linkage, and correct firmware. |
+| Wrong lid opens | Check the `PAPER` / `PLASTIC` / `METAL` signal-to-pin mapping and whether motors are attached to the correct physical bin. |
+| Servo buzzes or stalls | **Disconnect power**; check lid friction, servo angles, motor mounting, and power adequacy. Do not force the mechanism. |
+| Python says a module is missing | Run the exact `pip install -r requirements.txt` command using `.venv` from Step 5. |
+| AI model fails to load | Check internet on the first run, model availability, installed package compatibility, and terminal messages. |
+| Webcam is black or unavailable | Grant Windows camera permissions, close video-call apps, verify camera connection. |
+| Nothing happens after pressing Space | Wait for AI initialization, set empty background with `B`, then press `Space` with an object in view. |
+| Classifier chooses the wrong material | Keep one sample in frame, use consistent lighting, reduce background clutter, and recapture empty background. |
+| Arduino upload fails | Check board/port selection; close Python and Serial Monitor; reconnect UNO by USB and retry. |
+| Photos or PDFs do not show on GitHub | Ensure all filenames/extensions/capitalization match these relative paths and the files were pushed to `main`. |
+| Demo video link downloads instead of playing | This can happen with `.MOV` on GitHub; open the downloaded clip in a compatible media player. |
 
 ---
 
-## 10. Challenges and Engineering Lessons
+## 📁 9. Project Files & Technical Notes
 
-This project required more than getting a model prediction on screen:
+- [`smartsort_app.py`](smartsort_app.py) — camera handling, pretrained AI classification, GUI, classification display, serial communication and application controls.
+- [`arduino/sketch_oct29a/sketch_oct29a.ino`](arduino/sketch_oct29a/sketch_oct29a.ino) — Arduino UNO firmware controlling the three motors.
+- [`requirements.txt`](requirements.txt) — Python packages required by the app.
+- [`assets/photos/`](assets/photos/) — original build, wiring, UI and test photographs.
+- [`assets/videos/DEMO.MOV`](assets/videos/DEMO.MOV) — real working prototype video.
+- [`docs/Project_Document.pdf`](docs/Project_Document.pdf) — full documentation.
+- [`docs/Project_Poster.pdf`](docs/Project_Poster.pdf) — presentation poster.
 
-- **Hardware integration:** connecting and safely powering three small servo motors with a shared ground and separate regulated supply.
-- **Serial protocol:** handling UNO reconnects, initial `READY` handshake, and `BUSY` / `DONE` messages so motor commands are not mixed.
-- **UI responsiveness:** keeping camera/model processing and serial communication from freezing the desktop interface.
-- **Mechanical constraints:** selecting servo horns and angles and securely mounting each motor to a lightweight bin lid.
-- **AI reliability:** separating *one prediction's model score* from measured classification accuracy, and acknowledging unknown/unsupported categories.
-- **Reproducibility:** packaging code, dependencies, firmware, build photos, demo video and tested operating instructions into a public repository.
+### Technical limitations
 
----
+- Three categories only: paper, plastic and metal; not every material is supported.
+- The AI runs on the **laptop**, not on the Arduino UNO.
+- Camera lighting, background, and object appearance can affect classification.
+- The physical servo action depends on correctly powered motors and compatible lid mechanics.
+- The lid opens automatically, but the object is **placed into the bin by a person**.
+- This repository documents a **working educational client prototype**, not an industrial-grade commercial waste-management product.
 
-## 11. Current Limitations
+### Possible future enhancements
 
-- Only three physical destinations: paper, plastic and metal; other materials may be unsupported or misclassified.
-- Detection reliability depends on the pretrained model and environmental conditions (background, lighting, camera angle, item shape).
-- A laptop and camera are required in this version; classification is **not performed on the Arduino UNO**.
-- The bin opening is automatic; placing the item inside remains manual.
-- Servo size, lid weight and power capacity limit what can be moved safely.
-- A model score in the GUI must not be interpreted as an independently measured dataset accuracy.
+- Evaluate a wider range of objects and fine-tune a model on a carefully labeled dataset.
+- Add glass/organic-waste categories using additional bins and validated predictions.
+- Log repeated classification outcomes and motor success rates.
+- Improve 3D-printed hinges, mounts, enclosure, and power-distribution robustness.
+- Add fill-level sensors or a standalone embedded computing platform.
 
-## 12. Future Improvements
-
-- Collect a more diverse, clearly labeled waste-image dataset, and **fine-tune** or compare classification models.
-- Add support for glass, organic waste and other useful categories after testing.
-- Add a dedicated `UNKNOWN`/reject option with more systematic confidence calibration.
-- Log repeated classification and servo test outcomes, and chart class-by-class accuracy.
-- Improve mechanics/mounts, power distribution and electrical enclosure for longer operation.
-- Add fill-level sensors and an indication when a bin needs emptying.
-- Explore running classification on suitable small embedded hardware, removing the need for a laptop.
-
-These are **proposed future enhancements**, not existing features of the released prototype.
+These are future ideas, **not features already implemented**.
 
 ---
 
-## 13. Credits and Attribution
+## 👩‍💻 10. Freelance Development & Credits
 
-**Technical developer:** **Rama Al-Najjar** — Python GUI, AI model integration, Arduino communication, servo/hardware integration, troubleshooting and technical documentation, as applicable to the actual work performed.
+### Built and delivered as a freelance client project
 
-**School science-fair participant/presenter:** **Zain Yaser Al-Najjar**, presenting the educational application and demonstrating the prototype at **STS FAIR 2026**.
+**I am Rama Al-Najjar, a software engineering developer in Jordan.** I developed and delivered ZAIN SMARTSORT as a **commissioned freelance project** for a client who needed a complete, demonstrable educational solution. The work brought together **Python, AI model integration, a custom GUI, Arduino firmware/communication, electronic wiring, testing, and 3D-printed mechanical components**. The repository shows both the finished result and the technical process behind it.
 
-**Pretrained model:** [`tribber93/my-trash-classification`](https://huggingface.co/tribber93/my-trash-classification) on Hugging Face. The model is credited to its original publisher; this repository does not claim to have created or originally trained it.
+The prototype was presented in an educational science-fair context by **Zain Yaser Al-Najjar**. Technical development and the student's presentation role are credited separately.
 
-**Third-party tools:** Arduino, OpenCV, CustomTkinter, Hugging Face Transformers, PyTorch, PySerial and related dependencies remain credited to their respective authors.
+### Interested in a custom project?
 
-**Transparency:** The prototype was developed in a client-requested/freelance-style educational context. Describing the project this way does not imply a particular payment, formal contract or sale. Credit both the development work and the student's learning/presentation role accurately and check any applicable science-fair originality rules.
+I welcome inquiries about **freelance software projects, Python applications, Arduino prototypes, AI-powered demos, automation, and software–hardware integration**.
 
----
+**[Contact me via my GitHub profile](https://github.com/ramaalnajjarr2)** to discuss a project or collaboration.
 
-## 14. Useful References
+### Acknowledgments
 
-- [Pretrained AI model used](https://huggingface.co/tribber93/my-trash-classification)
-- [Arduino documentation](https://docs.arduino.cc/)
-- [Arduino IDE downloads](https://www.arduino.cc/en/software)
-- [Python downloads](https://www.python.org/downloads/)
-- [Visual Studio Code downloads](https://code.visualstudio.com/)
-- [OpenCV documentation](https://docs.opencv.org/)
-- [Hugging Face Transformers documentation](https://huggingface.co/docs/transformers)
-- [PySerial documentation](https://pyserial.readthedocs.io/)
-
-## 15. License
-
-No license is included yet. Please decide whether the custom code is intended to be publicly reusable before adding a license. Check the model's and dependency libraries' licenses separately. Publicly visible code is not automatically licensed for unrestricted reuse.
+- **AI model:** [`tribber93/my-trash-classification`](https://huggingface.co/tribber93/my-trash-classification) — pretrained by its original publisher and integrated here; it was **not trained from scratch** in this project.
+- **Open-source ecosystem:** Arduino, OpenCV, CustomTkinter, PyTorch, Hugging Face Transformers, PySerial and other library maintainers.
+- **Educational context:** STS FAIR 2026, with student participation/presentation credited as described above.
 
 ---
 
-### ✅ Before pushing to GitHub — publication checklist
+<div align="center">
 
-- [ ] `smartsort_app.py` is the **final working Python source**.
-- [ ] `arduino/sketch_oct29a/sketch_oct29a.ino` is the **actual tested final Arduino sketch** (or update the paths here).
-- [ ] `requirements.txt` was tested in a fresh `.venv`.
-- [ ] `.gitignore` prevents uploading `.venv`, downloaded models and private files.
-- [ ] All image comments above have been replaced with Markdown image lines **after** the named real files were added.
-- [ ] Replace the demo-link placeholder `https://example.com/REPLACE-WITH-YOUR-DEMO-VIDEO` with the actual video URL, or remove it until available.
-- [ ] Add the final report and poster PDFs under `docs/` or correct their links.
-- [ ] Add actual test data if reporting performance metrics.
-- [ ] Confirm credit/attribution and science-fair submission rules.
-- [ ] Confirm there are no exposed passwords, identifiable private screens, or other confidential material in screenshots/video.
+**ZAIN SMARTSORT · Freelance Software & Hardware Project · Jordan · 2026**
 
-**Project status:** Working educational prototype · Documentation and multimedia links are added as available.
+*Turning a live AI prediction into a real-world physical action.*
+
+</div>
