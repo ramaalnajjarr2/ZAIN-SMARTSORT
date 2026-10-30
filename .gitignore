@@ -1,0 +1,45 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python generated files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Editors and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local secrets and environment configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Runtime outputs and logs
+*.log
+logs/
+
+# Downloaded/cached AI models and datasets (not source code)
+.cache/
+models/
+datasets/
+
+# Large demo video files: link to hosted videos in README
+assets/videos/*.mp4
+assets/videos/*.ov
+assets/videos/*.avi
+assets/videos/*.mkv

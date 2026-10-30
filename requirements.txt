@@ -1,0 +1,10 @@
+# ZAIN SMARTSORT - Python dependencies
+# Install with: python -m pip install -r requirements.txt
+
+opencv-python
+customtkinter
+numpy
+Pillow
+transformers
+torch
+pyserial
