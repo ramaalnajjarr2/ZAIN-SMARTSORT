@@ -12,7 +12,7 @@
 
 *The finished prototype: dedicated 3D-printed bins for paper, plastic, and metal.*
 
-[**Watch the Demo**](assets/videos/DEMO.MOV) · [**Project Documentation**](docs/Project_Document.pdf) · [**Science Fair Poster**](docs/Project_Poster.pdf) · [**Source Code**](smartsort_app.py)
+[**Watch the Demo**](assets/videos/DEMO.MOV) · [**Project Documentation**](docs/Project_Document.pdf) · [**Science Fair Poster**](docs/Project_Poster.png) · [**Source Code**](smartsort_app.py)
 
 </div>
 
